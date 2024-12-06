@@ -1,38 +1,24 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 
 const Header = () => {
-  const addTokenBet = async () => {
+  const addToken = async (tokenAddress, symbol, decimals) => {
     if (window.ethereum) {
-      await window.ethereum.request({
-        method: "wallet_watchAsset",
-        params: {
-          type: "ERC20",
-          options: {
-            address: "0xBF93D17Dbb666a552bf8De43C8002FE3a3638449", // BET Token Address
-            symbol: "BET",
-            decimals: 18,
+      try {
+        await window.ethereum.request({
+          method: "wallet_watchAsset",
+          params: {
+            type: "ERC20",
+            options: {
+              address: tokenAddress,
+              symbol: symbol,
+              decimals: decimals,
+            },
           },
-        },
-      });
-    } else {
-      alert("MetaMask is not installed!");
-    }
-  };
-
-  const addTokenBut = async () => {
-    if (window.ethereum) {
-      await window.ethereum.request({
-        method: "wallet_watchAsset",
-        params: {
-          type: "ERC20",
-          options: {
-            address: "0xaCdA496b1f65F19Bb64E89B1D8fB89f10a47A163", // BUT Token Address
-            symbol: "BUT",
-            decimals: 18,
-          },
-        },
-      });
+        });
+      } catch (error) {
+        console.error("Error adding token:", error);
+      }
     } else {
       alert("MetaMask is not installed!");
     }
@@ -41,9 +27,9 @@ const Header = () => {
   return (
     <nav className="navbar navbar-expand-md navbar-light bg-light mb-4">
       <div className="container">
-        <a className="navbar-brand" href="/index.html">
-        <img src="/images/logo.png" alt="Logo" width="58" height="62" />
-        </a>
+        <Link className="navbar-brand" to="/">
+          <img src="/images/logo.png" alt="Logo" width="58" height="62" />
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -58,9 +44,9 @@ const Header = () => {
         <div className="collapse navbar-collapse" id="navbarCollapse">
           <ul className="navbar-nav me-auto mb-2 mb-md-0">
             <li className="nav-item">
-              <a className="nav-link" href="/mypage.html">
+              <Link className="nav-link" to="/mypage">
                 My page
-              </a>
+              </Link>
             </li>
             <li className="nav-item dropdown">
               <a
@@ -74,24 +60,24 @@ const Header = () => {
               </a>
               <ul className="dropdown-menu">
                 <li>
-                  <a className="dropdown-item" href="/p2e/mt5.html">
-                    MT5 Simulated investment
-                  </a>
+                  <Link className="dropdown-item" to="/p2e/mt5">
+                    MT5 Simulated Investment
+                  </Link>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/p2e/dicefootball.html">
+                  <Link className="dropdown-item" to="/p2e/dicefootball">
                     Blockchain Soccer
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/p2e/wordle.html">
+                  <Link className="dropdown-item" to="/p2e/wordle">
                     Blockchain Wordle
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/p2e/RelayLotto.html">
-                    RelayLotto
-                  </a>
+                  <Link className="dropdown-item" to="/p2e/relaylotto">
+                    Relay Lotto
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -107,24 +93,24 @@ const Header = () => {
               </a>
               <ul className="dropdown-menu">
                 <li>
-                  <a className="dropdown-item" href="/defi/farm.html">
+                  <Link className="dropdown-item" to="/defi/farm">
                     Blockchain InterestFarm
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/defi/betswap.html">
+                  <Link className="dropdown-item" to="/defi/betswap">
                     BetSwap
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/trust/match.html">
+                  <Link className="dropdown-item" to="/trust/match">
                     Matching
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/trust/trust.html">
+                  <Link className="dropdown-item" to="/trust/trust">
                     Payment Management
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -140,9 +126,9 @@ const Header = () => {
               </a>
               <ul className="dropdown-menu">
                 <li>
-                  <a className="dropdown-item" href="/alliance/affiliate.html">
+                  <Link className="dropdown-item" to="/alliance/affiliate">
                     Myanmar
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -158,14 +144,14 @@ const Header = () => {
               </a>
               <ul className="dropdown-menu">
                 <li>
-                  <a className="dropdown-item" href="/betex.html">
+                  <Link className="dropdown-item" to="/betex">
                     BET Token
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/butex.html">
+                  <Link className="dropdown-item" to="/butex">
                     BUT Token
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -181,17 +167,35 @@ const Header = () => {
               </a>
               <ul className="dropdown-menu">
                 <li>
-                  <a className="dropdown-item" href="/memberjoin.html">
+                  <Link className="dropdown-item" to="/memberjoin">
                     Sign up
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <button className="dropdown-item" onClick={addTokenBet}>
+                  <button
+                    className="dropdown-item"
+                    onClick={() =>
+                      addToken(
+                        "0xBF93D17Dbb666a552bf8De43C8002FE3a3638449",
+                        "BET",
+                        18
+                      )
+                    }
+                  >
                     Add BET
                   </button>
                 </li>
                 <li>
-                  <button className="dropdown-item" onClick={addTokenBut}>
+                  <button
+                    className="dropdown-item"
+                    onClick={() =>
+                      addToken(
+                        "0xaCdA496b1f65F19Bb64E89B1D8fB89f10a47A163",
+                        "BUT",
+                        18
+                      )
+                    }
+                  >
                     Add BUT
                   </button>
                 </li>
